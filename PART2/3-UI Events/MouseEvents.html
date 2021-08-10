@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.1 Mouse Events</title>
+    <style>
+        .mouse-down{
+            background-color: aqua;
+            border: 2px solid black;
+            padding: 5px;
+            margin: 10px 0;
+        }
+        .mouse-over{
+            background-color: blanchedalmond;
+            border: 2px solid black;
+            padding: 5px;
+            margin: 10px 0;
+        }
+        .mouse-move{
+            background-color: cadetblue;
+            border: 2px solid black;
+            padding: 5px;
+            margin: 10px 0;
+            width: 80%;
+            margin: 10px auto;
+        }
+        .mouse-context{
+            background-color: burlywood;
+            border: 2px solid black;
+            padding: 5px;
+            margin: 10px auto;
+            width: 80%;
+        }
+        button{
+            padding: 10px 20px;
+            margin: 10px;
+            outline: 1px solid blue;
+        }
+        button:hover{
+            background-color: cadetblue;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1>3.1 Mouse Events</h1>
+    <div class="mouse-down" onmousedown="myMouseDown(event)" onclick="myMouseClick()">
+        <h2>onmousedown/onmouseup event</h2>
+        <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis quae ducimus voluptatibus doloremque ab error, consequuntur magni nobis consequatur, nihil nesciunt cumque culpa et. Minus, iure. Suscipit tenetur enim atque.
+            Soluta eligendi, obcaecati, quaerat minima debitis aspernatur odit adipisci magni sequi dolorem hic id dolore mollitia exercitationem atque eaque. Pariatur cupiditate esse dolorum, dicta veniam minus ad excepturi cum ipsa.
+        </p>
+    </div>
+    <div class="mouse-over" onmouseover="myMouseOver()">
+        <h2>onmouseOver/onmouseOut event</h2>
+        <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis quae ducimus voluptatibus doloremque ab error, consequuntur magni nobis consequatur, nihil nesciunt cumque culpa et. Minus, iure. Suscipit tenetur enim atque.
+            Soluta eligendi, obcaecati, quaerat minima debitis aspernatur odit adipisci magni sequi dolorem hic id dolore mollitia exercitationem atque eaque. Pariatur cupiditate esse dolorum, dicta veniam minus ad excepturi cum ipsa.
+        </p>
+    </div>
+    <div class="mouse-move" onmousemove="myMouseMove()">
+        <h2>Mouse Move Event</h2>
+        <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis quae ducimus voluptatibus doloremque ab error, consequuntur magni nobis consequatur, nihil nesciunt cumque culpa et. Minus, iure. Suscipit tenetur enim atque.
+            Soluta eligendi, obcaecati, quaerat minima debitis aspernatur odit adipisci magni sequi dolorem hic id dolore mollitia exercitationem atque eaque. Pariatur cupiditate esse dolorum, dicta veniam minus ad excepturi cum ipsa.
+        </p>
+    </div>
+    <div class="mouse-context" oncontextmenu="myMouseContext(event)">
+        <h2>Mouse Context</h2>
+        <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis quae ducimus voluptatibus doloremque ab error, consequuntur magni nobis consequatur, nihil nesciunt cumque culpa et. Minus, iure. Suscipit tenetur enim atque.
+            Soluta eligendi, obcaecati, quaerat minima debitis aspernatur odit adipisci magni sequi dolorem hic id dolore mollitia exercitationem atque eaque. Pariatur cupiditate esse dolorum, dicta veniam minus ad excepturi cum ipsa.
+        </p>
+    </div>
+    <p>press the button with ctrl</p>
+    <button type="button">ctrl</button>
+    <div>
+        <p>concept for coordinates of mouse events with clientX & clientY</p>
+        <input value="on mouse over me" onmousemove="this.value=event.clientX+ ':' +event.clientY">
+    </div>
+    <script>
+        let countPressed=0;
+        let countreleased=0;
+        function myMouseDown(event){
+            countPressed++;
+            countreleased++;
+            console.log('count is pressed',countPressed);
+            console.log('count is released',countreleased);
+            if(event.button == 0){
+                console.log(`button value is ${event.button} left button ${event.buttons}`);
+            }
+
+            if(event.button == 2){
+                console.log(`button value is ${event.button} Right button ${event.buttons}`);
+            }
+            if(event.button == 1){
+                console.log(`button value is ${event.button} Middle button `);
+            }
+
+
+        }
+        let countMouseOver=0;
+        let countMouseOut=0;
+        function myMouseOver(){
+            countMouseOver++;
+            countMouseOut++;
+            console.trace('count of mouse-over is',countMouseOver);
+            console.trace('count of mouse-out is',countMouseOut);
+        }
+
+        let countMouseMove=0;
+        function myMouseMove(){
+            countMouseMove++;
+            console.log('count of mouse-move',countMouseMove);
+        }
+        let countMouseClick=0;
+        function myMouseClick(){
+            countMouseClick++;
+            console.log('it is trigered after on mouse down, on mouse up', 'right wont work on Onclick event');
+            console.log('count of click is',countMouseClick);
+        }
+
+        let countMouseContext=0;
+        function myMouseContext(event){
+            countMouseContext++;
+            console.log('count of click is',countMouseContext);
+            if(event.button == 2){
+                console.log('button event is' +event.button);
+            }
+           
+        }
+
+        // Event orders 
+        /* In cases when a single action initiates multiple events, their order is fixed.
+         That is, the handlers are called in the order mousedown → mouseup → click. */
+        /* Also we can see the button property that allows to detect the mouse button, it’s explained below */ 
+
+        // event.button is need for mousedown/mouseup events to figureout the event is triggered by which button (left or right)
+
+
+        ///--------------------Modifiers -------- shift,alt,ctrl------------------
+
+        let button = document.querySelector('button');
+        button.onclick = function(event){
+            if(event.ctrlKey){
+                button.style.background="yellow";
+            }
+        }
+    </script>
+</body>
+</html>
